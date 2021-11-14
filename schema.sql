@@ -13,17 +13,16 @@ CREATE TABLE course (
    name VARCHAR(255)
 );
 
-CREATE TABLE course_facilitator (
+CREATE TABLE session (
+   session_id INTEGER PRIMARY KEY,
    course_id INTEGER,
    facilitator_id INTEGER,
    date_schedule DATETIME
 );
 
-CREATE TABLE course_facilitator_student (
-   course_id INTEGER,
+CREATE TABLE session_student (
+   session_id INTEGER,
    student_id INTEGER,
-   facilitator_id INTEGER,
    status VARCHAR(255)
 );
-
 
