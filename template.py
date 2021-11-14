@@ -72,6 +72,10 @@ class Main(QMainWindow, FORM_CLASS):
         header1.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         header1.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         header1.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)  
+        header2 = self.resourcePlanningByWeek_tableWidget.horizontalHeader()       
+        header2.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header2.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header2.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)  
 
     def Get_CurrentWeek(self):
         time = QDate.currentDate()
