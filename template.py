@@ -117,7 +117,9 @@ class Main(QMainWindow, FORM_CLASS):
         facilitators_query=''' SELECT name from facilitator '''
         courses_query=''' SELECT name from course '''
         students_query=''' SELECT name from student '''
-        
+        self.facilitators_comboBox.clear()
+        self.courses_listWidget.clear()
+        self.students_listWidget.clear()
         # Get all facilitators from database
         result_facilitators = cursor.execute(facilitators_query).fetchall()
         # Add facilitators to "facilitator" comboBox in UI
@@ -143,7 +145,8 @@ class Main(QMainWindow, FORM_CLASS):
         # Connect to Sqlite3 database to fill GUI with data.
         db = sqlite3.connect(resource_path("onboard.db"))
         cursor = db.cursor()
-
+        self.facilitators_comboBox_2.clear()
+        self.facilitator_listWidget.clear()
         # Display facilitators in combo box
         facilitators_query = ''' SELECT name from facilitator '''
         # Get all facilitators from database
@@ -173,24 +176,27 @@ class Main(QMainWindow, FORM_CLASS):
         # Get facilitator ID
         facilitator_id_query = ''' SELECT id from facilitator WHERE name=? '''
         cursor.execute(facilitator_id_query, (selected_fac,))
-        fac_id = int(cursor.fetchone()[0])
+        try:    
+            fac_id = int(cursor.fetchone()[0])
+        
 
-        # Get courses with this facilitator ID from the course_facilitator table
-        courses_by_facilitator = ''' SELECT f.name, c.name from session s  join course c on c.id=s.course_id join facilitator f on f.id = s.facilitator_id WHERE  f.id  = ? '''
-        result = cursor.execute(courses_by_facilitator,
-                                (fac_id,))
+            # Get courses with this facilitator ID from the course_facilitator table
+            courses_by_facilitator = ''' SELECT f.name, c.name from session s  join course c on c.id=s.course_id join facilitator f on f.id = s.facilitator_id WHERE  f.id  = ? '''
+            result = cursor.execute(courses_by_facilitator,
+                                    (fac_id,))
 
-        # Display the facilitator's courses in the table
-        self.coursesByFac_tableWidget.setRowCount(0)  # Clear table  first
-        self.coursesByFac_tableWidget.setRowCount(50)
-        tablerow = 0
-        for r in result:
-            self.coursesByFac_tableWidget.setItem(
-                tablerow, 0, QtWidgets.QTableWidgetItem(r[0]))
-            self.coursesByFac_tableWidget.setItem(
-                tablerow, 1, QtWidgets.QTableWidgetItem(r[1]))
-            tablerow += 1
-            
+            # Display the facilitator's courses in the table
+            self.coursesByFac_tableWidget.setRowCount(0)  # Clear table  first
+            self.coursesByFac_tableWidget.setRowCount(50)
+            tablerow = 0
+            for r in result:
+                self.coursesByFac_tableWidget.setItem(
+                    tablerow, 0, QtWidgets.QTableWidgetItem(r[0]))
+                self.coursesByFac_tableWidget.setItem(
+                    tablerow, 1, QtWidgets.QTableWidgetItem(r[1]))
+                tablerow += 1
+        except:
+            print("no fac in db")   
     def assignCourseToFacilitator(self):
         # Get selected facilitator from listWidget
         selected_fac = self.facilitator_listWidget.selectedItems()[0].text()
