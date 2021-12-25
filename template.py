@@ -204,7 +204,7 @@ class Main(QMainWindow, FORM_CLASS):
         selected_course = self.courses_listWidget_2.selectedItems()[0].text()
         
         # Connect to Sqlite3 database
-        db = sqlite3.connect("onboard.db")
+        db = sqlite3.connect(resource_path("onboard.db"))
         cursor = db.cursor()
         
         # Get the ID of the selected facilitator from "facilitatior" table
@@ -239,7 +239,7 @@ class Main(QMainWindow, FORM_CLASS):
     def add(self):
         
         # Connect to Sqlite3 database and fill GUI table with data.
-        db=sqlite3.connect("onboard.db")
+        db=sqlite3.connect(resource_path("onboard.db"))
         cursor=db.cursor()
         
         # Get selected facilitator, course, and students/attendees from the UI
@@ -306,7 +306,7 @@ class Main(QMainWindow, FORM_CLASS):
         facilitator = self.facilitator_lineEdit.text()
         
         # Connect to Sqlite3 database 
-        db = sqlite3.connect("onboard.db")
+        db = sqlite3.connect(resource_path("onboard.db"))
         cursor = db.cursor()
         
         # Inserting row into "facilitator" table
@@ -332,7 +332,7 @@ class Main(QMainWindow, FORM_CLASS):
         course = self.course_lineEdit.text()
 
         # Connect to Sqlite3 database
-        db = sqlite3.connect("onboard.db")
+        db = sqlite3.connect(resource_path("onboard.db"))
         cursor = db.cursor()
 
         # Inserting row into "course" table
@@ -359,7 +359,7 @@ class Main(QMainWindow, FORM_CLASS):
         student = self.student_lineEdit.text()
 
         # Connect to Sqlite3 database
-        db = sqlite3.connect("onboard.db")
+        db = sqlite3.connect(resource_path("onboard.db"))
         cursor = db.cursor()
 
         # Inserting row into "student" table
