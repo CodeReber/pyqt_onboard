@@ -378,7 +378,9 @@ class Main(QMainWindow, FORM_CLASS):
         # Once OK is selected, reset all values
         if returnValue == QMessageBox.Ok:
             self.student_lineEdit.setText("")
-    
+    	
+	self.refresh()
+
         
     def listStudentsByPercentCompleted(self):
         # Get % of completed courses from database
@@ -648,6 +650,7 @@ class Main(QMainWindow, FORM_CLASS):
         if returnValue == QMessageBox.Ok:
             self.completedAttendents_listWidget.clearSelection()
             self.dnaAttendants_listWidget.clearSelection()
+
         
 def main():
     
