@@ -31,6 +31,9 @@ class Main(QMainWindow, FORM_CLASS):
     def __init__(self,parent=None):
         super(Main,self).__init__(parent)
         self.setupUi(self)
+        today = QtCore.QDate.currentDate()
+        self.dateTimeEdit.setDate(today)
+        self.courses_listWidget_2.setVisible(False)
         self.handle_buttons()
         self.get_data_ScheduleSessionTab()
         self.get_data_RegistrationTab()
@@ -44,7 +47,7 @@ class Main(QMainWindow, FORM_CLASS):
         self.spin.setValue(self.Get_CurrentWeek())
         self.resourcePlanningByWeek()
         self.spin.valueChanged.connect(self.resourcePlanningByWeek)
-        self.header_resize()
+        #self.header_resize()
  
 
         
@@ -186,7 +189,8 @@ class Main(QMainWindow, FORM_CLASS):
                                     (fac_id,))
 
             # Display the facilitator's courses in the table
-            self.coursesByFac_tableWidget.setRowCount(0)  # Clear table  first
+            #self.coursesByFac_tableWidget.setRowCount(0)  # Clear table  first
+            self.coursesByFac_tableWidget.clear()
             self.coursesByFac_tableWidget.setRowCount(50)
             tablerow = 0
             for r in result:
@@ -235,6 +239,7 @@ class Main(QMainWindow, FORM_CLASS):
         if returnValue == QMessageBox.Ok:
             self.facilitator_listWidget.setCurrentRow(0)
             self.courses_listWidget_2.setCurrentRow(0)
+            self.refresh()
 
     def add(self):
         
@@ -299,6 +304,7 @@ class Main(QMainWindow, FORM_CLASS):
             self.students_listWidget.clearSelection()
             self.facilitators_comboBox.setCurrentIndex(0)
             self.calendarDateChanged()
+            self.refresh()
 
       
     def addFacilitator(self):
@@ -379,7 +385,7 @@ class Main(QMainWindow, FORM_CLASS):
         if returnValue == QMessageBox.Ok:
             self.student_lineEdit.setText("")
     	
-	self.refresh()
+        self.refresh()
 
         
     def listStudentsByPercentCompleted(self):
@@ -515,6 +521,8 @@ class Main(QMainWindow, FORM_CLASS):
     def refresh(self):
         self.get_data_ScheduleSessionTab()
         self.get_data_RegistrationTab()
+        self.getData_completeCourseTab()
+        self.resourcePlanningByWeek()
 
     def getData_completeCourseTab(self):
         # Connect to Sqlite3 database to fill GUI with data.
@@ -533,6 +541,7 @@ class Main(QMainWindow, FORM_CLASS):
         cursor.close()
         
         self.getAllAttendants_completeScreen()
+        
             
     def getDatesByCourse(self):
         # Clear comboBox before adding
@@ -597,6 +606,7 @@ class Main(QMainWindow, FORM_CLASS):
 
         # Get selected course from UI
         selected_course = self.courses_comboBox.currentText()
+         
 
         # Get selected date from UI
         selected_date = self.dateCourse_comboBox.currentText()
@@ -650,6 +660,7 @@ class Main(QMainWindow, FORM_CLASS):
         if returnValue == QMessageBox.Ok:
             self.completedAttendents_listWidget.clearSelection()
             self.dnaAttendants_listWidget.clearSelection()
+            self.refresh()
 
         
 def main():
